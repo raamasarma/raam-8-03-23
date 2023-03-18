@@ -1,16 +1,13 @@
 package com.raithanna.dairy.RaithannaDairy.models;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
-
 @Entity
 @Table
 @AllArgsConstructor
@@ -20,14 +17,15 @@ public class saleOrder {
     @Id
     @GeneratedValue
     private Integer id;
-
     private String branch;
     private String custCode;
+    private String name;
+    private LocalDate date;
     @CreationTimestamp
     @Column(updatable = false)
-    private LocalDateTime date;
+    private LocalDate createDate;
     private String shift;
-    private int orderNo;
+    private Integer orderNo;
     private double disc;
     private double comm;
     private double amount;
@@ -47,5 +45,10 @@ public class saleOrder {
     private Date recDate;
     private String customerName;
     private String sourcedata;
+
+    private String totAmount;
+    private String totDisc;
+    private String totNetAmount;
+
 
 }

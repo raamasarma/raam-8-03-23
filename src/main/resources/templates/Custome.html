@@ -7,8 +7,30 @@
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous">
+    <style>
+.navbar-nav li:hover > ul.dropdown-menu {
+    display: block;
+}
+.dropdown-submenu {
+    position:relative;
+}
+.dropdown-submenu > .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top:-6px;
+}
+/* rotate caret on hover */
+.dropdown-menu > li > a:hover:after {
+    text-decoration: underline;
+    transform: rotate(-90deg);
+}
+  </style>
+<div th:replace="fragments/navbar :: navbar_html"></div>
+<div class="container">
+    <div th:replace="fragments/message :: message_html"></div>
+</div>
 </head>
-<body>
+<body style="background-color:Blonde;">
 <div class ="container">
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
@@ -45,8 +67,6 @@
                                 placeholder="Enter Customer Email"
                         />
                     </div>
-
-
                     <div class = "box-footer">
                         <button type="submit" class = "btn btn-primary">
                             Submit

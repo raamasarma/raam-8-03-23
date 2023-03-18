@@ -1,5 +1,4 @@
 package com.raithanna.dairy.RaithannaDairy;
-
 import com.raithanna.dairy.RaithannaDairy.models.dailySales;
 import com.raithanna.dairy.RaithannaDairy.models.productMaster;
 import com.raithanna.dairy.RaithannaDairy.repositories.DailySalesRepository;
@@ -11,24 +10,19 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 @SpringBootApplication
 @RestController
 @Controller
 public class RaithannaDairyApplication {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-
 	@Autowired
 	private ProductMasterRepository productMasterRepository;
-
 	public static void main(String[] args) {
-
 		ConfigurableApplicationContext context =
 				SpringApplication.run(RaithannaDairyApplication.class, args);
 		/*DailySalesRepository repository = context.getBean(DailySalesRepository.class);
@@ -39,7 +33,6 @@ public class RaithannaDairyApplication {
 		}*/
 
 	}
-
 //	@PostMapping("/productsmigrate")
 //	public List<Map<String,Object>> productMigrate(@RequestBody Map productsMap) throws ParseException {
 //		 System.out.println(productsMap.get("item"));
@@ -52,7 +45,4 @@ public class RaithannaDairyApplication {
 //		 }
 //		 return products;
 //	}
-
-
-
 }

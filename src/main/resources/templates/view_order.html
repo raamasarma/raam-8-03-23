@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
@@ -6,102 +7,84 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+    select option:disabled:checked {
+  color: red;
+}
+.navbar-nav li:hover > ul.dropdown-menu {
+    display: block;
+}
+.dropdown-submenu {
+    position:relative;
+}
+.dropdown-submenu > .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top:-6px;
+}
+/* rotate caret on hover */
+.dropdown-menu > li > a:hover:after {
+    text-decoration: underline;
+    transform: rotate(-90deg);
+}
+input#inputnumber{
+  width:300px;
+  border:1px solid #ddd;
+  border-radius:3px;
+  outline:0;
+  padding:7px;
+  background-colour:#fff;
+  }
+  .css-serial {
+  counter-reset: serial-number;  /* Set the serial number counter to 0 */
+}
+.css-serial td:first-child:before {
+  counter-increment: serial-number;  /* Increment the serial number counter */
+  content: counter(serial-number);  /* Display the counter */
+}
+  .css-serial {
+  counter-reset: serial-number;  /* Set the serial number counter to 0 */
+}
+.css-serial td:first-child:before {
+  counter-increment: serial-number;  /* Increment the serial number counter */
+  content: counter(serial-number);  /* Display the counter */
+}
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}" />
     <title>View Order</title>
-
     <style type="text/css">
-table { border: 3px solid red }
-table th { border: 2px solid green }
-table td { border: 1px solid blue }
+table { border: 3px solid black}
+table th { border: 3px solid black}
+table td { border: 3px solid black}
 </style>
-<!--    <script>-->
-<!--    function GetTotal()-->
-<!--    {-->
-<!--    /*Footer Calculation*/-->
-
-<!--    var sum=0;-->
-<!--    var amts =  document.getElementsByName("amt");-->
-
-<!--    for (let index = 0; index < amts.length; index++)-->
-<!--    {-->
-<!--    var amt = amts[index].value;-->
-<!--    sum = +(sum) +  +(amt) ;-->
-<!--    }-->
-
-<!--    document.getElementById("FTotal").value = sum;-->
-
-<!--    var netSum =  document.getElementById("FnetAmount").value;-->
-<!--    var net = +(sum) + +(netsum);-->
-<!--    document.getElementById("FnetAmount").value = net;-->
-
-<!--    }-->
-<!--    </script>-->
-
 </head>
-<body style="background-image: C:\Users\satya\Downloads\bg.jpeg">
-<p style="background-image: url('Downloads/sasha-matic-Y7zkuWl1jDk-unsplash.jpg');">
-<div th:replace="fragments/navbar :: navbar_html"></div>
-<br>
+<body style="background-color:Thistle;">
 <div class="container">
-    <div th:replace="fragments/message :: message_html"></div>
-</div>
-<div class="container">
-    <h1>View Order</h1>
+    <h1></h1>
     <hr>
     <div class="row auto-align">
-        <div class="col">
-            <h3><i>Order No:</i> <b><span th:text="${sales.orderNo}" id="orderNo"></span></b></h3>
+        <div id="message" style="display: none">
+            <!-- Here I want to place a message. It should be visible for 3 seconds.Then clear the      div to get ready for the next message. -->
         </div>
         <div class="col">
-            <h3><i>Customer Code:</i> <b><span th:text="${sales.custCode}" id="custCode"></span></b></h3>
-        </div>
-
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-6">
-            <label for="product">Product</label>
-            <select id="product" class="form-control" name="product" autocomplete="on">
-                <option th:each="i : ${products}" th:value="${i.PCode}" ><span th:text="${i.PName}"></span> - <span th:text="${i.unitRate}">(Common price)</span></option>
-            </select>
+            <h3>Order No:<span th:text="${sales.orderNo}" id="orderNo"></span></h3>
+<!--            <h3><i>Order No:</i> <b><span th:text="${sales.orderNo}" id="orderNo"></span></b></h3>-->
         </div>
         <div class="col">
-            <label for="qty">Quantity</label>
-            <input type="number" class="form-control" id="qty" value="1" min="1">
+            <h3><i>Customer Name:</i> <b><span th:text="${sales.name}" id="custCode"></span></b></h3>
         </div>
         <div class="col">
-            <label for="disc">Discount</label>
-            <input type="number" class="form-control" id="disc" value="0" min="0">
+            <h3><i>Date:</i> <b><span th:text="${sales.remarks}" id="date"></span></b></h3>
         </div>
     </div>
-    <br>
-    <div class="row">
-        <div class="col">
-            <h5>Common price: <span th:text="${commonPrice}" id="commonPrice"></span></h5>
-
-        </div>
-        <div class="col">
-            <h5>Special price: <span th:text="${specialPrice}" id="specialPrice"></span></h5>
-
-        </div>
-        <div class="col">
-            <h5>Amount: <span th:text="${ttlPrice}" id="amt"></span></h5>
-        </div>
-        <div class="col">
-            <h5>Net Amount: <span th:text="${ttlPrice}" id="totalPrice"></span></h5>
-        </div>
-    </div>
-    <br>
-    <button id="addProduct" class="btn btn-primary">Add product</button>
 
 </div>
-
 </div>
 <br>
 <div class="container">
-    <table class="tableSelect" id="productTable">
+    <table class="css-serial" id="productTable">
         <thead>
         <tr>
-            <th scope="col">Sno</th>
+            <th scope="col">S.No</th>
             <th scope="col">Product</th>
             <th scope="col">Quantity</th>
             <th scope="col">Unit Rate</th>
@@ -109,51 +92,42 @@ table td { border: 1px solid blue }
             <th scope="col">Amount</th>
             <th scope="col">Net Amount</th>
             <th scope="col" style="display:none;">P_Key</th>
-            <th>Action</th>
         </tr>
         </thead>
-
         <tbody id="TBody">
         <tr id="TRow" th:each=" order : ${orders}">
             <td></td>
-            <td scope="col"> <span th:text="${order.prodCode}" ></span> </td>
-            <td scope="col"> <input type="number" class="form-control" id="qty" name="qty" th:value="${order.quantity}" min="1"/></td>
-            <td scope="col"> <span th:text="${order.unitRate}" ></span> </td>
-            <td scope="col"> <input type="number" class="form-control" id="disc" name="disc" th:value="${order.disc}" min="0"/> </td>
-            <td scope="col"> <span th:text="${order.amount}" id="amount" name="amount"></span> </td>
-            <td scope="col"> <span th:text="${order.netAmount}"></span> </td>
-            <td scope="col" style ="display:none;"> <span th:text="${order.id}"></span> </td>
-            <td>
-                <a th:href = "@{/orders/{id}(id=${order.id})}"
-                   class = "btn btn-danger">Delete</a>
+            <td scope="col">
+                <select id="product" class="form-control" name="product" autocomplete="on">
+                    <option  th:value="${order.prodCode}"> <span th:text="${order.prodCode}" ></span> - <span
+                            th:text="${order.unitRate}"></span></option>
+                    <option th:each="i : ${products}" th:value="${i.PCode}"><span th:text="${i.PCode}"></span> - <span
+                            th:text="${i.unitRate}"></span></option>
+                </select>
             </td>
-
+            <td scope="col"> <input type="number" class="form-control" id="qty" name="qty" th:value="${order.quantity}" min="1"/></td>
+                        <td scope="col"> <span id="unitRate" name="unitRate" th:text="${order.unitRate}" ></span> </td>
+            <td scope="col"> <input type="number" class="form-control" id="disc" name="disc" th:value="${order.disc}" min="0"/> </td>
+            <td scope="col"> <span id="amount" name="amount" th:text="${order.amount}" ></span> </td>
+            <td scope="col"> <span id="netAmount" name="netAmount" th:text="${order.netAmount}"></span> </td>
+            <td scope="col" style ="display:none;"> <span th:text="${order.id}"></span> </td>
         </tr>
         </tbody>
     </table>
     <br>
-
     <br>
     <div class="row">
         <div class="col">
-            <h5><i>Amount:</i> <b><span id="totAmount" name="totAmount"></span></b></h5>
-
+            <h5><i>Amount:</i> <b><span th:text="${sales.amount}" id="totAmount" name="totAmount"></span></b></h5>
         </div>
         <div class="col">
-          <h5><i>Disc:</i> <b><span id="totDiscount" name="totDiscount"></span></b></h5>
-          <!-- <h5><i>Disc:</i> <b><input type="text" class="form-control" id="totDiscount" name="totDiscount" /></b></h5> -->
+            <h5><i>Disc:</i> <b><span th:text="${sales.disc}" id="totDiscount" name="totDiscount"></span></b></h5>
+            <!-- <h5><i>Disc:</i> <b><input type="text" class="form-control" id="totDiscount" name="totDiscount" /></b></h5> -->
         </div>
-<!--        <div class="col">-->
-<!--            <h5><i>Net Amount:</i> <b><span id="totNetAmount" name="totNetAmount"></span></b></h5>-->
-
-<!--        </div>-->
         <div class="col">
-            <h5><i>Net Amount:</i> <b><span id="totNetAmount" name="totNetAmount"></span></b></h5>
-
+            <h5><i>Net Amount:</i> <b><span th:text="${sales.netAmount}" id="totNetAmount" name="totNetAmount"></span></b></h5>
         </div>
-
     </div>
-
     <div>
         <input type="submit" id="bulkUpdate" name="bulkUpdate" value="UPDATE"/>
     </div>
@@ -165,10 +139,10 @@ $(document).ready(function() {
         type: 'POST',
         url: '/getproductValues',
         data: {
-
             "pcode": $("#product").val(),
             "qty": $("#qty").val(),
-            "disc": $("#disc").val()
+            "disc": $("#disc").val(),
+             "unitRate": $("#unitRate").val()
         },
         success: function(data) {
             console.log(data["commonValue"]);
@@ -179,150 +153,131 @@ $(document).ready(function() {
             $("#qty").max(data["specialValue"]);
         }
     })
-     $("#product,#qty,#disc").change(function() {
-     console.log($("#amount").val());
-        $.ajax({
-            type: 'POST',
-            url: '/getproductValues',
-            data: {
-
-                "pcode": $("#product").val(),
-                "qty": $("#qty").val(),
-                "disc": $("#disc").val()
-            },
-            success: function(data) {
-                console.log(data["commonValue"]);
-                $("#commonPrice").html(data["commonValue"]);
-                $("#specialPrice").html(data["specialValue"]);
-                $("#amt").html(data["amount"]);
-                $("#totalPrice").html(data["ttlValue"]);
-            }
-        })
-    })
-    $("#addProduct").click(function() {
-        var table = document.getElementById("productTable");
-        var row = table.insertRow(-1);
-        var product = row.insertCell(0);
-        var qty = row.insertCell(1);
-        var unitrate = row.insertCell(2);
-        var disc = row.insertCell(3);
-        var amt = row.insertCell(4);
-        var ttl = row.insertCell(5);
-
-        product.innerHTML = $("#product").val();
-        qty.innerHTML = ($("#qty").val());
-        unitrate.innerHTML = ($("#specialPrice").html());
-        disc.innerHTML = ($("#disc").val()) * ($("#qty").val());
-        amt.innerHTML = ($("#amt").html());
-        ttl.innerHTML = ($("#totalPrice").html());
-
-    })
-
-$(document).ready(function() {
-//alert("in");
- var addSerialNumber = function () {
-    var i = 1
-    $('table tbody tr').each(function(index) {
-        $(this).find('td:nth-child(1)').html(index+1);
-    });
-};
-
-addSerialNumber();
-});
 </script>
-
 <script>
   // ajax call update for table
 $('#bulkUpdate').click(function() {
-
  var dailySales = [];
-  //var qty, disc;
+  //var prodCode,qty, disc;
+<!--  var prodCode = $("#prodCode").val();-->
   var totAmount = $("#totAmount").text();
-  var totDiscount = $("#totDiscount").val();
-  var totNetAmount = $("#totNetAmount").val();
-  alert(totAmount);
-    alert(totDiscount);
+  var totDisc = $("#totDiscount").text();
+  var totNetAmount =$("#totNetAmount").text();
+var orderNo =$("#orderNo").html();
+//alert(orderNo);
   $("table tbody tr").each(function(index) {
   var currentRow=$(this).closest("tr");
+  var product = currentRow.find('#product').html();
+  alert(product);
+   var product1 = currentRow.find('#product').text();
+  alert(product1);
+
    var quantity = parseFloat(currentRow.find('#qty').val());
+   var unitRate = currentRow.find("td:eq(3)").text();
       var disc = parseFloat(currentRow.find('#disc').val());
        var amount=currentRow.find("td:eq(5)").text();
          var netAmount=currentRow.find("td:eq(6)").text();
            var id=currentRow.find("td:eq(7)").text();
- //alert(amount);
- // alert(netAmount);
-    //---->Form validation goes here
     dailySales.push({
+    prodCode: product,
       quantity: quantity,
+      unitRate : unitRate,
       disc: disc,
       amount: amount,
       netAmount: netAmount,
-      id : id,
+      totAmount : totAmount,
       totDisc : totDisc,
-<!--      totDiscount : totDiscount,-->
-      totAmount: totAmount,
-      totNetAmount : totNetAmount
+      totNetAmount: totNetAmount,
+      id :  id,
+      orderNo : orderNo
     });
-
-
   });
-  //alert(dailySales);
   var json = JSON.stringify(dailySales);
-  alert(json);
-
+  //alert(json);
   $.ajax({
 url: '/updateOrder',
     method: 'POST',
         contentType : 'application/json; charset=utf-8',
         data: JSON.stringify(dailySales),
 success: function(data) {
-
-
-alert("Updated in DB");
+//alert("Data Saved Successfully !!!");
+var $messageDiv = $('#message'); // get the reference of the div
+$messageDiv.show().html('order updated'); // show and set the message
+setTimeout(function(){ $messageDiv.hide().html('');}, 5000); // 3 seconds later, hide
+                                                             // and clear the message
 }
 });
 });
-
 </script>
-
 <script>
-
-$('table tbody tr').change(function() {
- //var index = this.rowIndex;
- // alert(index);
-
+$('table tbody tr').keyup(function() {
  // current row picker
  var currentRow=$(this).closest("tr");
  var $row = $(this).closest('tr');
-
- var product=currentRow.find("td:eq(1)").text();
+ var product=currentRow.find("td:eq(0)").text();
  var qty = parseFloat(currentRow.find('#qty').val());
- //alert(qty);
  var unitRate=currentRow.find("td:eq(3)").text();
  //alert(qty*parseFloat(unitRate));
  var calAmount = qty*parseFloat(unitRate);
- //alert(calAmount);
  var discount=currentRow.find("td:eq(4)").text();
-
- //$currentRow.find('td').eq(5).text(qty*parseFloat(unitRate));
+ //$currentRow.find('td').eq(4).text(qty*parseFloat(unitRate));
  // set calculated value
  $row.find('td').eq(5).text(calAmount);
-
 var discount = parseFloat(currentRow.find('#disc').val());
-//alert(discount);
-
 var netAmount = calAmount - parseFloat(discount) * parseFloat(qty);
-//alert(netAmount);
  $row.find('td').eq(6).text(netAmount);
-
-
-           var discount,amt =0,netamt=0;
+  var discount,amt =0,netamt=0;
   $("table tbody tr").each(function(index) {
   var currentRow=$(this).closest("tr");
-
    var amount=parseFloat(currentRow.find("td:eq(5)").text());
    var netamount=parseFloat(currentRow.find("td:eq(6)").text());
+         amt = amt+amount;
+         netamt=netamt+netamount;
+           });
+    discount = amt-netamt;
+    $("#totDiscount").html(discount);
+    $("#totAmount").html(amt);
+    $("#totNetAmount").html(netamt);
+});
+$('table tbody tr').change(function() {
+ var index = this.rowIndex;
+ var currentRow=$(this).closest("tr");
+ var $row = $(this).closest('tr');
+//var product = currentRow.find('#product').val();
+var qty = parseFloat(currentRow.find('#qty').val());
+var discount = parseFloat(currentRow.find('#disc').val());
+ //alert($("#product option:selected").text());
+var selectedValue = currentRow.find("#product option:selected").text();
+var fields = selectedValue.split(' - ');
+var product = fields[0];
+var unitRate = fields[1];
+  var amount, netAmount;
+  var discount,amt =0,netamt=0;
+  $.ajax({
+          'async': false,
+            type: 'POST',
+            url: '/getproductValues',
+            data: {
+                "pcode":product,
+                "qty": qty,
+                "disc": discount,
+                "unitRate" :unitRate
+            },
+            success: function(data) {
 
+       unitRate = data["commonValue"];
+            amount = qty * unitRate;
+          netAmount = (unitRate - discount) * qty;
+          }
+});
+$(this).find('#unitRate').html(unitRate);
+  $(this).find('#amount').html(amount);
+   $(this).find('#netAmount').html(netAmount);
+   var discount,amt =0,netamt=0;
+  $("table tbody tr").each(function(index) {
+  var currentRow=$(this).closest("tr");
+   var amount=parseFloat(currentRow.find("td:eq(5)").text());
+   var netamount=parseFloat(currentRow.find("td:eq(6)").text());
          amt = amt+amount;
          netamt=netamt+netamount;
            });
@@ -330,42 +285,6 @@ discount = amt-netamt;
     $("#totDiscount").html(discount);
     $("#totAmount").html(amt);
     $("#totNetAmount").html(netamt);
-
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--$("#product,#qty,#customer,#disc").change(function() {-->
-<!--console.log($("#product").val());-->
-<!--console.log($("#customer").val());-->
-<!--$.ajax({-->
-<!--type :'POST';-->
-<!--url:'/getproductValues',-->
-<!--data:{-->
-<!--"qty":$("#qty").val();-->
-<!--"disc":$("#disc").val();-->
-<!--},-->
-<!--success.function(data) {-->
-<!--console.log(data["amount"]);-->
-<!--$("#amt").html(data["amount"]);-->
-<!--$("disc").html(data["discount"]);-->
-<!--$("#totalPrice").html(data["ttlValue"]);-->
-<!--}-->
-<!--})-->
-<!--})-->
-
-
-
 </script>
 </html>

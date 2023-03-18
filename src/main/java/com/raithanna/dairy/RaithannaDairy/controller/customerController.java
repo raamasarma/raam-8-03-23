@@ -1,4 +1,5 @@
 package com.raithanna.dairy.RaithannaDairy.controller;
+import com.raithanna.dairy.RaithannaDairy.Service.customerService;
 
 import com.raithanna.dairy.RaithannaDairy.models.customer;
 import com.raithanna.dairy.RaithannaDairy.repositories.CustomerRepository;
@@ -16,9 +17,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 @Controller
 public class customerController {
+
+//    @Autowired
+//    private customerService customerService;
     @Autowired
     private CustomerRepository customerRepository;
 
@@ -28,9 +31,9 @@ public class customerController {
         model.addAttribute("Custome", cm);
         return "Custome";
     }
-
     @PostMapping("/customers")
     public String saveCustomer(Model model, customer Customer) {
+        //customer maxCustomer =  customerService.getMaxOrderNo();
         customer custWithMaxCustno = customerRepository.findTopByOrderByCustnoDesc();
         Integer maxCust_no = 80;
         if (custWithMaxCustno != null) {
@@ -42,21 +45,19 @@ public class customerController {
         Customer.setCode("RDML00" + (maxCust_no));
         System.out.println(Customer);
         customerRepository.save(Customer);
-        return "redirect:/";
+        customer cm = new customer();
+        model.addAttribute("Custome", cm);
+        return "Custome";
     }
-
-
-
     @RequestMapping("/customerEdit")
     public String createOrder_html(Model model, HttpSession session){
         if (session.getAttribute("loggedIn").equals("yes")){
-            Iterable<customer> CustomersIterable = customerRepository.findAll();
+
+            Iterable<customer> CustomersIterable = customerRepository.findByOrderByIdDesc();
             List<customer> Customers = new ArrayList<>();
             for (customer Customer : CustomersIterable) {
                 Customers.add(Customer);
             }
-
-
             model.addAttribute("customers", Customers);
             return "customerEdit";
         }
@@ -65,7 +66,6 @@ public class customerController {
         model.addAttribute("messages", messages);
         return "redirect:/login";
     }
-
     //getcustvalue i.e name,phonenumber,email
     @PostMapping("/getCustValues")
     public ResponseEntity<?> getCustValues(@RequestParam Map<String,String> body){
